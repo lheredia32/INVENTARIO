@@ -1,0 +1,72 @@
+<div class="row">
+  <div class="col-lg-12">
+    <h1>Detalles del producto</h1>
+    <%= link_to "Regresar al listado de productos", products_path, class: "btn btn-primary" %>
+    <%= link_to "Editar este producto", edit_product_path(@product), class: "btn btn-warning" %>
+    <%= link_to "Eliminar este producto", @product, data: { turbo_method: :delete, turbo_confirm: 'Are you sure?' }, class: "btn btn-danger" %> | |
+    <%= link_to "Crear movimiento", new_movement_product_path(@product), class: "btn btn-info" %>
+    <%= link_to "Exportar a Excel", product_path(format: :xlsx), class: "btn btn-success" %>
+    <br><br>
+    <div class="card">
+      <table class="table">
+        <tr>
+          <td><b>Nombre del producto:</b></td>
+          <td><%= @product.name %></td>
+        </tr>
+        <tr>
+          <td><b>Referencia:</b></td>
+          <td><%= @product.reference %></td>
+        </tr>
+        <tr>
+          <td><b>Cantidad actual:</b></td>
+          <td><%= @product.quantity %></td>
+        </tr>
+        <tr>
+          <td><b>Descripción:</b></td>
+          <td><%= @product.description %></td>
+        </tr>
+        <tr>
+          <td><b>Fecha de creación:</b></td>
+          <td><%= @product.created_at.strftime("%d-%m-%Y %I:%M %P") %></td>
+        </tr>
+      </table>
+    </div>
+  </div>
+</div>
+
+<%#--------------------------------------------------MOVEMENTS--------------------------------------------%>
+
+<div class="row" style="margin-top: 20px">
+  <div class="col-lg-12">
+    <div class="card" style="padding-top: 20px">
+      <h1>Movimientos</h1>
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Tipo</th>
+            <th>Cantidad</th>
+            <th>Comentario</th>
+            <th>Fecha</th>
+            <th>Fecha modificación</th>
+            <th></th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @product.movements.each do |movement| %>
+            <tr>
+              <td><%= movement.movement_type_name %>
+              <td><%= movement.quantity %>
+              <td><%= movement.comment %>
+              <td><%= movement.created_at.strftime("%d-%m-%Y %I:%M %P") %>
+              <td><%= movement.updated_at.strftime("%d-%m-%Y %I:%M %P") %>
+              <td><%= link_to "Editar movimiento", edit_movement_product_path(id: @product.id, movement_id: movement.id), class: "btn btn-warning" %>
+              <td><%= link_to "Eliminar movimiento", delete_movement_product_path(id: @product.id, movement_id: movement.id), data: { turbo_method: :delete, turbo_confirm: 'Are you sure?' }, class: "btn btn-danger" %>
+            </tr>  
+          <% end %>
+        </tbody>      
+      </table>
+    </div>
+  </div>  
+</div>
+    

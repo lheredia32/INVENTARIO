@@ -1,0 +1,75 @@
+<h1>Lista de Productos</h1>
+<a href="<%= new_product_path%>" class="btn btn-primary btn-icon-split">
+  <span class="icon text-white-50">
+    <i class="fas fa-flag"></i>
+  </span>
+  <span class="text">Crear Producto</span>
+</a>
+
+<!-- 
+<a href="<%#= new_product_path%>" class="btn btn-primary btn-icon-split">    ****** BOTON DE BUSQUEDA SIN PLACEHOLDER ******
+  <span class="icon text-white-50"> 
+    <i class="fas fa-search fa-sm"></i>
+  </span>
+  <span class="text">Buscar</span>
+</a>
+-->
+
+<!-- 
+<div class="btn btn-primary btn-icon-split">
+  <div class="input-group">
+    <input type="text" class="form-control bg-light border-0 small" placeholder="Busca un producto" aria-label="Search" aria-describedby="basic-addon2"/>
+    <div class="input-group-append">
+      <button class="btn btn-primary" type="button"> .                        **** BARRA DE BUSQUEDA EN HTML ****
+        <i class="fas fa-search fa-sm"></i>
+      </button>
+    </div>
+  </div>
+</div>
+-->
+
+<%= form_tag(products_path, method: :get, class:"btn btn-primary btn-icon-split") do %>
+  <div class="input-group">
+    <%= text_field_tag(:query, "", placeholder:"Busca un producto", class:"form-control bg-light border-0 small") %>
+    <div class="input-group-append">
+      <%= button_tag("", class:"btn btn-primary") do%>
+        <i class="fas fa-search fa-sm"></i>
+      <% end %>
+    </div>
+  </div>
+<% end %>
+
+<a href="<%= products_path %>" class="btn btn-primary btn-icon-split">
+  <span class="text">Limpiar Busqueda</span>
+</a>
+
+<%= link_to "Exportar a Excel", products_path(format: :xlsx), class: "btn btn-success" %>
+
+<% if @products.empty? %>
+  <div class="alert alert-danger alert-dismissible mt-3" role="alert">
+    <h3><%= flash[:notice]%></h3>
+  </div>
+<% end %>
+
+<br>
+<br>
+<table class="table">
+  <thead>
+    <tr>
+      <th>Referencia</th>
+      <th><%= link_to "Nombre", :sort => "name"%></th>
+      <th>Cantidad</th>
+      <th>Acciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @products.each do |product|%>
+      <tr>
+        <td> <%= product.reference %> </td>
+        <td> <%= product.name %> </td>
+        <td> <%= product.quantity %> </td>       <!--  Aqui se ejecuta quantity, que es el metodo que está en el Modelo Product.  -->
+        <td> <%= link_to "Detalles", product_path(product), class: "btn btn-primary" %> </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

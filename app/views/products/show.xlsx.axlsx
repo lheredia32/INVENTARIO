@@ -1,0 +1,17 @@
+wb = xlsx_package.workbook
+
+wb.add_worksheet(name: "Movimientos") do |sheet|
+  header = wb.styles.add_style({:alignment => {:horizontal => :center, :vertical => :center, :wrap_text => true}, :border => { :style => :thin, :color => "000000" }}) 
+  border = wb.styles.add_style({:border => { :style => :thin, :color => "000000" }}) 
+  align_right = wb.styles.add_style({:alignment => {:horizontal => :right}}) 
+  align_left = wb.styles.add_style({:alignment => {:horizontal => :left}})
+  sheet.add_row(["Referencia", @product.reference], :style => header)
+  sheet.add_row(["Nombre", @product.name], :style => header)
+  sheet.add_row(["Cantidad", @product.quantity], :style => header)
+  sheet.add_row(["Fecha de creación", @product.created_at.strftime("%d-%m-%Y %I:%M %P")], :style => header)
+  sheet.add_row
+  sheet.add_row ["Tipo", "Cantidad", "Comentario", "Fecha"], :style => header
+  @product.movements.each do |movement|
+    sheet.add_row [movement.movement_type_name, movement.quantity, movement.comment, movement.created_at.strftime("%d-%m-%Y %I:%M %P")], :style => border
+  end
+end
